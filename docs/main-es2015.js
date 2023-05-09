@@ -123,29 +123,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const routes = [
     // {
-    //   path: "SignUp/:role",
-    //   canActivate: [IsNotLoginGuard],
-    //   component: SignUpComponent,
-    // },
-    // {
-    //   path: "login/:role",
-    //   canActivate: [IsNotLoginGuard],
-    //   component: LoginComponent,
-    // },
-    // {
-    //   path: "",
-    //   canActivate: [IsNotLoginGuard],
-    //   component: LoginComponent,
-    // },
-    // {
     //   path: "login",
     //   canActivate: [IsNotLoginGuard],
     //   component: LoginComponent,
-    // },
-    // {
-    //   path: "",
-    //   component: ViewProductComponent,
-    //   children: content,
     // },
     {
         path: "",
@@ -1092,7 +1072,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vacation_insert_vacation_insert_vacation_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./vacation/insert-vacation/insert-vacation.component */ 99420);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/core */ 37716);
 
-// ChangePassword Component
 
 
 

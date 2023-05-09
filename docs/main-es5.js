@@ -243,29 +243,9 @@
 
 
       var routes = [// {
-      //   path: "SignUp/:role",
-      //   canActivate: [IsNotLoginGuard],
-      //   component: SignUpComponent,
-      // },
-      // {
-      //   path: "login/:role",
-      //   canActivate: [IsNotLoginGuard],
-      //   component: LoginComponent,
-      // },
-      // {
-      //   path: "",
-      //   canActivate: [IsNotLoginGuard],
-      //   component: LoginComponent,
-      // },
-      // {
       //   path: "login",
       //   canActivate: [IsNotLoginGuard],
       //   component: LoginComponent,
-      // },
-      // {
-      //   path: "",
-      //   component: ViewProductComponent,
-      //   children: content,
       // },
       {
         path: "",
@@ -2108,8 +2088,7 @@
 
       var _angular_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(
       /*! @angular/core */
-      37716); // ChangePassword Component
-
+      37716);
 
       var routes = [{
         path: "",

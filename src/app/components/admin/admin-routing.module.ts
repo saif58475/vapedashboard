@@ -1,9 +1,5 @@
 import { NgModule, Component } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-// ChangePassword Component
-
-
-
 import { ViewHotelsComponent } from "./Hotels/view-hotels/view-hotels.component";
 import { ViewPlanesComponent } from "./plane/view-planes/view-planes.component";
 import { ViewNightlifeComponent } from "./night-life/view-nightlife/view-nightlife.component";
@@ -28,9 +24,6 @@ const routes: Routes = [
     {
         path: "",
         children: [
-            
-
-            
             {
                 path: "ViewHotel",
                 component: ViewHotelsComponent,
