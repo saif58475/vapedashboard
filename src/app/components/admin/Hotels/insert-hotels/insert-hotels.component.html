@@ -1,0 +1,111 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 5px !important">
+                    <div >
+                        <h5 class="pb-2">فندق جديد</h5>
+                       <span> يرجى ملئ جميع الخانات </span>
+                    </div>
+                    
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" autocomplete="off" 
+                    [formGroup] = "HotelForm"
+                    (ngSubmit)="onSubmit()" 
+                    novalidate>
+                        <div class="form-row">
+                            <!-- hotel Name  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> اسم الفندق</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="hotelName"
+                                [tooltip]="fc.hotelName.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.hotelName.valid && (fc.hotelName.touched)"
+                                [class.is-invalid]="fc.hotelName.invalid && (fc.hotelName.touched)"
+                                     required
+                                     placeholder="اسم الفندق"
+                                    containerClass=""/>
+                            </div>
+                            <!-- room Type  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> نوع الغرفة</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="roomType"
+                                [tooltip]="fc.roomType.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.roomType.valid && (fc.roomType.touched)"
+                                [class.is-invalid]="fc.roomType.invalid && (fc.roomType.touched)"
+                                     required
+                                     placeholder="نوع الغرفة"
+                                    containerClass=""/>
+                            </div>
+                            <!-- sleeps  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> عدد السراير</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="sleeps"
+                                [tooltip]="fc.sleeps.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.sleeps.valid && (fc.sleeps.touched)"
+                                [class.is-invalid]="fc.sleeps.invalid && (fc.sleeps.touched)"
+                                     required
+                                     placeholder="عدد السراير"
+                                    containerClass=""/>
+                            </div>
+                            <!-- price  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> السعر</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="price"
+                                [tooltip]="fc.price.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.price.valid && (fc.price.touched)"
+                                [class.is-invalid]="fc.price.invalid && (fc.price.touched)"
+                                     required
+                                     placeholder="اكتب السعر"
+                                    containerClass=""/>
+                            </div>
+                            <!-- description  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> التفاصيل</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="description"
+                                [tooltip]="fc.description.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.description.valid && (fc.description.touched)"
+                                [class.is-invalid]="fc.description.invalid && (fc.description.touched)"
+                                     required
+                                     placeholder="التفاصيل"
+                                    containerClass=""/>
+                            </div>
+                            <div class="col-12 mb-3"></div>
+                             <!-- to insert image for the hotel  -->
+                             <div class="col-3 m-2 row" *ngFor="let img of images">
+                                    <img  src="{{ img }}" class="w-100 image-style p-2"/>
+                             </div>
+                             
+                             
+                             
+              <div class="col-12 my-3">
+               <input type="file" accept="image/*" #file id="getLogo"
+                style="display: none" (change)="getLogoUrl($event)" />
+            <button type="button" onclick="document.getElementById('getLogo').click()"
+                class="btn  d-block"  style="width: 100%;">
+                 صورة الفندق
+            </button>    
+                        </div>
+                           
+                        </div>
+
+                        <br>
+                        <ng-template #elseBlock>
+                            <button [disabled]="button" class="btn pull-right" type="submit">
+                               حفظ
+                            </button>
+                            </ng-template>
+                        <div *ngIf="update; else elseBlock">
+                            <button class="btn pull-right" type="submit">
+                                تعديل
+                            </button>
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

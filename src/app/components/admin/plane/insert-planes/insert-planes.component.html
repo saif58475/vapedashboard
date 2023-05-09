@@ -1,0 +1,111 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 5px !important">
+                    <div >
+                        <h5 class="pb-2">طيران جديد</h5>
+                       <span> يرجى ملئ جميع الخانات </span>
+                    </div>
+                    
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" autocomplete="off" 
+                    [formGroup] = "planeForm"
+                    (ngSubmit)="onSubmit()" 
+                    novalidate>
+                        <div class="form-row">
+                            <!-- Cafe NameEn  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> اسم الطيران بالانجليزي</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="nameEn"
+                                [tooltip]="fc.nameEn.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.nameEn.valid && (fc.nameEn.touched)"
+                                [class.is-invalid]="fc.nameEn.invalid && (fc.nameEn.touched)"
+                                     required
+                                     placeholder="اسم الطيران بالانجليزي"
+                                    containerClass=""/>
+                            </div>
+                            <!-- Cafe NameAr -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> اسم الطيران بالعربي</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="nameAr"
+                                [tooltip]="fc.nameAr.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.nameAr.valid && (fc.nameAr.touched)"
+                                [class.is-invalid]="fc.nameAr.invalid && (fc.nameAr.touched)"
+                                     required
+                                     placeholder="اسم الطيران بالعربي"
+                                    containerClass=""/>
+                            </div>
+                            <!-- Description  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> تفاصيل الطيران</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="description"
+                                [tooltip]="fc.description.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.description.valid && (fc.description.touched)"
+                                [class.is-invalid]="fc.description.invalid && (fc.description.touched)"
+                                     required
+                                     placeholder="التفاصيل"
+                                    containerClass=""/>
+                            </div>
+                            <!-- type  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> نوع الطيران</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="type"
+                                [tooltip]="fc.type.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.type.valid && (fc.type.touched)"
+                                [class.is-invalid]="fc.type.invalid && (fc.type.touched)"
+                                     required
+                                     placeholder="نوع الطيران"
+                                    containerClass=""/>
+                            </div>
+                            <!-- Price  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> سعر الطيران</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="price"
+                                [tooltip]="fc.price.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.price.valid && (fc.price.touched)"
+                                [class.is-invalid]="fc.price.invalid && (fc.price.touched)"
+                                     required
+                                     placeholder="السعر"
+                                    containerClass=""/>
+                            </div>
+                            <div class="col-6 mb-3"></div>
+
+                          <!-- to insert image for the plane  -->
+                          <div class="col-3 m-2 row" *ngFor="let img of images">
+                            <img  src="{{ img }}" class="w-100 image-style p-2"/>
+                     </div>
+                            
+                        <!-- to insert image for the plane  -->
+              <div class="col-12 my-3">
+               <input type="file" accept="image/*" #file id="getLogo"
+                style="display: none" (change)="getLogoUrl($event)" />
+            <button type="button" onclick="document.getElementById('getLogo').click()"
+                class="btn  d-block w-100">
+                 صورة للطيران
+            </button>    
+                        </div>
+                           
+                        </div>
+
+                        <br>
+                        <ng-template #elseBlock>
+                            <button [disabled]="button" class="btn pull-right" type="submit">
+                               حفظ
+                            </button>
+                            </ng-template>
+                        <div *ngIf="update; else elseBlock">
+                            <button class="btn pull-right" type="submit">
+                                تعديل
+                            </button>
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

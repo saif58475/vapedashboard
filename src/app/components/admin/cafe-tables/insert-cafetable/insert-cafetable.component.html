@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 5px !important">
+                    <div >
+                        <h5 class="pb-2">طاولة جديدة</h5>
+                       <span> يرجى ملئ جميع الخانات </span>
+                    </div>
+                    
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" autocomplete="off" 
+                    [formGroup] = "CafeTableForm"
+                    (ngSubmit)="onSubmit()" 
+                    novalidate>
+                        <div class="form-row">
+                            <!-- table type  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> نوع الطاولة</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="type"
+                                [tooltip]="fc.type.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.type.valid && (fc.type.touched)"
+                                [class.is-invalid]="fc.type.invalid && (fc.type.touched)"
+                                     required
+                                     placeholder="نوع الطاولة"
+                                    containerClass=""/>
+                            </div>
+                            <!-- table description  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> اكتب تفاصيل هذا الطاولة</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="description"
+                                [tooltip]="fc.description.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.description.valid && (fc.description.touched)"
+                                [class.is-invalid]="fc.description.invalid && (fc.description.touched)"
+                                     required
+                                     placeholder="تعريف الطاولة"
+                                    containerClass=""/>
+                            </div>
+                            <!-- set_num  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> عدد الطاولات من هذا النوع</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="set_num"
+                                [tooltip]="fc.set_num.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.set_num.valid && (fc.set_num.touched)"
+                                [class.is-invalid]="fc.set_num.invalid && (fc.set_num.touched)"
+                                     required
+                                     placeholder="اكتب عدد الطاولات من هذا النوع"
+                                    containerClass=""/>
+                            </div>
+                            <!-- table_num  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> رقم الطاولة من هذا النوع</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="table_num"
+                                [tooltip]="fc.table_num.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.table_num.valid && (fc.table_num.touched)"
+                                [class.is-invalid]="fc.table_num.invalid && (fc.table_num.touched)"
+                                     required
+                                     placeholder="اكتب رفم الطاولات من هذا النوع"
+                                    containerClass=""/>
+                            </div>
+                            <!-- price  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> سعر الطاولة من هذا النوع</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="price"
+                                [tooltip]="fc.price.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.price.valid && (fc.price.touched)"
+                                [class.is-invalid]="fc.price.invalid && (fc.price.touched)"
+                                     required
+                                     placeholder="سعر رفم الطاولات من هذا النوع"
+                                    containerClass=""/>
+                            </div>
+                           
+                           
+                        <!-- to insert image for the cafe  -->
+              <div class="col-6 my-3">
+                <img  src="{{ imageLogo }}" style="width: 60%; height: 220px;" class="image-style p-2" *ngIf="imageLogo != null"/>
+               <input type="file" formControlName="tableImage" accept="image/*" #file id="getLogo"
+                style="display: none" (change)="getLogoUrl($event)" />
+            <button type="button" onclick="document.getElementById('getLogo').click()"
+                class="btn  d-block"  style="width: 60%;">
+                 صورة الطاولة
+            </button>    
+                        </div>
+                           
+                        </div>
+
+                        <br>
+                        <ng-template #elseBlock>
+                            <button [disabled]="button" class="btn pull-right" type="submit">
+                               حفظ
+                            </button>
+                            </ng-template>
+                        <div *ngIf="update; else elseBlock">
+                            <button class="btn pull-right" type="submit">
+                                تعديل
+                            </button>
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
