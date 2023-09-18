@@ -19,11 +19,13 @@ update:boolean = false;
 button:boolean = false;
 img:string = environment.img;
 updaterecordid:number;
+owners:any [];
   constructor(private _NightlifeService:NightlifeService
              ,private _Router:Router
              ,private _FormBuilder:FormBuilder) { }
 
   ngOnInit(): void {
+    this.getOwners();
     this._NightlifeService.UpdateCafe.subscribe((res) => {
       if( res == null) {
         this.initiate();
@@ -43,6 +45,7 @@ updaterecordid:number;
       description: [data?.description ||'', Validators.required],
       cafeLocation: [data?.cafeLocation ||'', Validators.required],
       image: ['', Validators.required],
+      client_id: ['', Validators.required]
     });
   }
   get fc(){
@@ -53,6 +56,11 @@ updaterecordid:number;
     imageUrl: `${this.img}${data}`,
     imageHeight: 300,
     imageAlt: 'A tall image'
+  })
+}
+getOwners(){
+  this._NightlifeService.ListOwner().subscribe((res) => {
+    this.owners = res.data;
   })
 }
    // imgFile

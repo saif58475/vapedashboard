@@ -12,13 +12,6 @@ import { LoginComponent } from "./shared/Models/login/login.component";
 
 const routes: Routes = [
   
-  
-  // {
-  //   path: "login",
-  //   canActivate: [IsNotLoginGuard],
-  //   component: LoginComponent,
-  // },
-  
   {
     path: "",
     component: LoginComponent,
@@ -28,7 +21,7 @@ const routes: Routes = [
   {
     path: "content",
     component: ContentComponent,
-    canActivate: [IsNotLoginGuard],
+    canActivate: [IsLoginGuard],
     children: content,
   },
   {

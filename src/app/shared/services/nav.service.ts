@@ -90,6 +90,19 @@ export class NavService implements OnDestroy {
       headTitle2: "Management SideBar",
     },
     {
+      title: "العملاء",
+      icon: "activity",
+      type: "sub",
+      badgeType: "success",
+      children: [
+        {
+          path: "admin/ViewClient",
+          title: "ادارة العملاء",
+          type: "link",
+        },
+      ],
+    },
+    {
       title: "الفنادق",
       icon: "activity",
       type: "sub",

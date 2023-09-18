@@ -35,13 +35,14 @@ person:FormGroup ;
 
   onSubmit(){
     this._LoginService.user_login(this.person.value).subscribe((res) => {
+      debugger
           Swal.fire({
             icon: "success",
             title: "Signed in successfully",
             showConfirmButton: false,
             timer: 1500,
           });
-          // localStorage.setItem('Authorization', res.token);
+          localStorage.setItem('Authorization', res['token']);
           this._Router.navigate(["/content"]);
     },(err) =>{
     console.log("their is an error");
@@ -52,7 +53,6 @@ person:FormGroup ;
     })
     }, () =>{
       console.log("completed");
-      
     });
   }
 }

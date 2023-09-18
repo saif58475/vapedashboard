@@ -47,6 +47,8 @@ import { InsertCafetableComponent } from './cafe-tables/insert-cafetable/insert-
 import { FormsModule } from '@angular/forms';
 import { InsertVacationComponent } from './vacation/insert-vacation/insert-vacation.component';
 import { ViewVacationComponent } from './vacation/view-vacation/view-vacation.component';
+import { ViewClientComponent } from './clients/view-client/view-client.component';
+import { InsertClientComponent } from './clients/insert-client/insert-client.component';
 
 
 
@@ -70,6 +72,8 @@ import { ViewVacationComponent } from './vacation/view-vacation/view-vacation.co
     InsertCafetableComponent,
     InsertVacationComponent,
     ViewVacationComponent,
+    ViewClientComponent,
+    InsertClientComponent,
     
   ],
   imports: [

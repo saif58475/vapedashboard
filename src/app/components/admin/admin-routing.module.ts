@@ -15,6 +15,8 @@ import { InsertCafetableComponent } from "./cafe-tables/insert-cafetable/insert-
 import { ViewCafetableComponent } from "./cafe-tables/view-cafetable/view-cafetable.component";
 import { ViewVacationComponent } from "./vacation/view-vacation/view-vacation.component";
 import { InsertVacationComponent } from "./vacation/insert-vacation/insert-vacation.component";
+import { ViewClientComponent } from "./clients/view-client/view-client.component";
+import { InsertClientComponent } from "./clients/insert-client/insert-client.component";
 
 
 
@@ -71,6 +73,14 @@ const routes: Routes = [
             {
                 path: "InsertCar",
                 component: InsertCarsComponent,
+            },
+            {
+                path: "ViewClient",
+                component: ViewClientComponent,
+            },
+            {
+                path: "InsertClient",
+                component: InsertClientComponent
             },
             {
                 path: "ViewPackage",

@@ -1,0 +1,103 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 5px !important">
+                    <div >
+                        <h5 class="pb-2">عميل جديد</h5>
+                       <span> يرجى ملئ جميع الخانات </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" autocomplete="off" 
+                    [formGroup] = "ClientForm"
+                    (ngSubmit)="onSubmit()" 
+                    novalidate>
+                        <div class="form-row">
+                            <!-- clientName  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> اسم العميل</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="clientName"
+                                [tooltip]="fc.clientName.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.clientName.valid && (fc.clientName.touched)"
+                                [class.is-invalid]="fc.clientName.invalid && (fc.clientName.touched)"
+                                     required
+                                     placeholder="اسم العميل"
+                                    containerClass=""/>
+                            </div>
+                           
+                            <!-- password  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> كلمة المرور</label>
+                                <input class="form-control" id="validation01" type="password" formControlName="password"
+                                [tooltip]="fc.password.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.password.valid && (fc.password.touched)"
+                                [class.is-invalid]="fc.password.invalid && (fc.password.touched)"
+                                     required
+                                     placeholder="*********"
+                                    containerClass=""/>
+                            </div>
+                           
+                            <!-- phone  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> رقم الهاتف</label>
+                                <input class="form-control" id="validation01" type="number" formControlName="phone"
+                                [tooltip]="fc.phone.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.phone.valid && (fc.phone.touched)"
+                                [class.is-invalid]="fc.phone.invalid && (fc.phone.touched)"
+                                     required
+                                     placeholder="010********"/>
+                            </div>
+                            <!-- email  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> البريد الالكتروني</label>
+                                <input class="form-control" id="validation01" type="email" formControlName="email"
+                                [tooltip]="fc.email.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.email.valid && (fc.email.touched)"
+                                [class.is-invalid]="fc.email.invalid && (fc.email.touched)"
+                                     required
+                                     placeholder="example@gmail.com"/>
+                            </div>
+                            <!-- location  -->
+                            <div class="col-6 mb-3">
+                                <label for="validation01"><span class="validation-required">*</span> العنوان</label>
+                                <input class="form-control" id="validation01" type="text" formControlName="location"
+                                [tooltip]="fc.location.errors?.required ? 'الحقل مطلوب' : null"
+                                [class.is-valid]="fc.location.valid && (fc.location.touched)"
+                                [class.is-invalid]="fc.location.invalid && (fc.location.touched)"
+                                     required
+                                     placeholder="العنوان"/>
+                            </div>
+                            <!-- gender -->
+                            <div class="col-lg-6 col-sm-12  mb-3">
+                                <label for="validationCustom05"><span class="validation-required">*</span> اختر النوع</label>
+                                <ng-select  [selectOnTab]="true" formControlName="gender"
+                                    class="form-control p-0" placeholder="اختر النوع"
+                                    id="validationCustom05">
+                                    <ng-option *ngFor="let item of Gender" [value]="item.value">{{item.value}}</ng-option>
+                                </ng-select>
+                            </div>
+                            
+                            
+                        </div>
+
+                        <br>
+                        <ng-template #elseBlock>
+                            <button [disabled]="button" class="btn pull-right" type="submit">
+                               حفظ
+                            </button>
+                            </ng-template>
+                        <div *ngIf="update; else elseBlock">
+                            <button class="btn pull-right" type="submit">
+                                تعديل
+                            </button>
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

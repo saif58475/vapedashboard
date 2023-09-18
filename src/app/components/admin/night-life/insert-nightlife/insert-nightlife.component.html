@@ -59,7 +59,18 @@
                                      placeholder="مثال : المهندسين"
                                     containerClass=""/>
                             </div>
-                            
+                            <!-- owner -->
+                            <div class="col-lg-6 col-sm-12  mb-3">
+                                <label for="validationCustom05"><span class="validation-required">*</span> اختر المالك</label>
+                                <ng-select  [selectOnTab]="true" formControlName="client_id"
+                                    class="form-control p-0" placeholder="اختر المالك"
+                                    id="validationCustom05">
+                                    <ng-option *ngFor="let item of owners" [value]="item.client_id">{{item.clientName}}</ng-option>
+                                </ng-select>
+                            </div>
+                            <div class="col-lg-6">
+                                
+                            </div>
                         <!-- to insert image for the cafe  -->
               <div class="col-6 my-3">
                 <img  src="{{ imageLogo }}" style="width: 60%; height: 220px;" class="image-style p-2" *ngIf="imageLogo != null"/>

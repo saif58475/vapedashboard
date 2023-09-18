@@ -28,4 +28,8 @@ export class NightlifeService {
 DeleteCafe(id):Observable<any>{
   return this._HttpClient.delete(`${environment.Server_URL}/deleteCafe/${id}`); 
 }
+// get the owners of the cafe 
+ListOwner():Observable<any>{
+  return this._HttpClient.get(`${environment.Server_URL}/listOwner`);
+}
 }
