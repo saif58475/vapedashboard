@@ -47,6 +47,8 @@ recordtoupdate:any;
       sleeps: [data?.sleeps || '', Validators.required],
       price: [data?.price || '', Validators.required],
       description: [data?.description || '', Validators.required],
+      vip:[ data?.vip || '', Validators.required],
+      offer:[ data?.offer || '', Validators.required]
     });
   }
   get fc(){
@@ -70,6 +72,8 @@ recordtoupdate:any;
     this.HotelFormData.append("roomType", this.HotelForm.value.roomType);
     this.HotelFormData.append("sleeps", this.HotelForm.value.sleeps);
     this.HotelFormData.append("price", this.HotelForm.value.price);
+    this.HotelFormData.append("vip", this.HotelForm.value.vip);
+    this.HotelFormData.append("offer", this.HotelForm.value.offer);
     this.HotelFormData.append("description", this.HotelForm.value.description);
     this.Image.forEach(element => {
       this.HotelFormData.append("hotelImages[]", element);      
@@ -79,25 +83,35 @@ recordtoupdate:any;
   onSubmit(){
     this.button = true;
     if( this.HotelForm.status == "VALID" && this.update == false){
-      this.appenddata();
-      this._HotelsService.CreateHotel(this.HotelFormData).subscribe((res) => {
+      if( this.HotelForm.value.price > this.HotelForm.value.offer){
+        this.appenddata();
+        this._HotelsService.CreateHotel(this.HotelFormData).subscribe((res) => {
+          Swal.fire({
+           icon: "success",
+           title: "تم تسجيل الفندق بنجاح",
+           showConfirmButton: false,
+           timer: 1500,
+         }); 
+         this.HotelForm.reset();
+         this._Router.navigate(['content/admin/ViewHotel']);
+         },(err) => {
+          this.button = false;
+               Swal.fire({
+                 icon: 'error',
+                 title: 'خطأ',
+                 text: err.error.message,
+               });
+               this.button = false;
+         })
+      }else{
         Swal.fire({
-         icon: "success",
-         title: "تم تسجيل الفندق بنجاح",
-         showConfirmButton: false,
-         timer: 1500,
-       }); 
-       this.HotelForm.reset();
-       this._Router.navigate(['content/admin/ViewHotel']);
-       },(err) => {
+          icon: 'error',
+          title: 'خطأ',
+          text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
+        });
         this.button = false;
-             Swal.fire({
-               icon: 'error',
-               title: 'خطأ',
-               text: err.error.message,
-             });
-             this.button = false;
-       })
+      }
+      
     }else if(this.HotelForm.status == "VALID" && this.update == true){
        this.appenddata()
        this._HotelsService.UpdateHotel(this.HotelFormData , this.recordtoupdate.hotel_id).subscribe((res) => {

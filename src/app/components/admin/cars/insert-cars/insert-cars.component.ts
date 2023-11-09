@@ -19,6 +19,10 @@ export class InsertCarsComponent implements OnInit {
   update:boolean = false;
   button:boolean = false;
   recordtoupdate:any;
+  flags:Object [] = [
+    { name:'متاحة', value : 1},
+    { name:'غير متاحة', value : 0}
+  ]; 
   constructor(private _CarsService:CarsService
              ,private _Router:Router
              ,private _FormBuilder:FormBuilder) { }
@@ -46,6 +50,9 @@ export class InsertCarsComponent implements OnInit {
       nameAr: [data?.nameAr || '', Validators.required],
       description: [data?.description || '', Validators.required],
       price: [data?.price || '', Validators.required],
+      flag: [data?.flag || '', Validators.required],
+      vip:[ data?.vip || '', Validators.required],
+      offer:[ data?.offer || '', Validators.required]
     });
   }
  
@@ -70,6 +77,9 @@ appenddata(){
   this.CarFromData.append("nameAr", this.CarForm.value.nameAr);
   this.CarFromData.append("description", this.CarForm.value.description);
   this.CarFromData.append("price", this.CarForm.value.price);
+  this.CarFromData.append("flag", this.CarForm.value.flag);
+  this.CarFromData.append("vip", this.CarForm.value.vip);
+  this.CarFromData.append("offer", this.CarForm.value.offer);
   this.Image.forEach(element => {
     this.CarFromData.append("carImages[]", element);      
   });}  
@@ -82,7 +92,7 @@ appenddata(){
       this._CarsService.CreateCar(this.CarFromData).subscribe((res) => {
         Swal.fire({
          icon: "success",
-         title: "تم تسجيل الفسحة بنجاح",
+         title: "تم تسجيل السيارة بنجاح",
          showConfirmButton: false,
          timer: 1500,
        }); 

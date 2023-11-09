@@ -47,6 +47,8 @@ button:boolean = false;
       description: [data?.description || '', Validators.required],
       price: [data?.price || '', Validators.required],
       type: [data?.type || '', Validators.required],
+        vip:[ data?.vip || '', Validators.required],
+        offer:[ data?.offer || '', Validators.required]
     });
   }
   get fc(){
@@ -71,6 +73,8 @@ appenddata(){
   this.planeFormData.append("description", this.planeForm.value.description);
   this.planeFormData.append("price", this.planeForm.value.price);
   this.planeFormData.append("type", this.planeForm.value.type);
+  this.planeFormData.append("vip", this.planeForm.value.vip);
+  this.planeFormData.append("offer", this.planeForm.value.offer);
   this.Image.forEach(element => {
     this.planeFormData.append("planeImages[]", element);    
   });
@@ -78,25 +82,35 @@ appenddata(){
 onSubmit(){
   this.button = true;
   if( this.planeForm.status == "VALID" && this.update == false){
-    this.appenddata();
-    this._PlanesService.CreatePlane(this.planeFormData).subscribe((res) => {
+    if( this.planeForm.value.price > this.planeForm.value.offer){
+      this.appenddata();
+      this._PlanesService.CreatePlane(this.planeFormData).subscribe((res) => {
+        Swal.fire({
+         icon: "success",
+         title: "تم تسجيل الطيران بنجاح",
+         showConfirmButton: false,
+         timer: 1500,
+       }); 
+       this.planeForm.reset();
+       this._Router.navigate(['content/admin/ViewPlane']);
+       },(err) => {
+        this.button = false;
+             Swal.fire({
+               icon: 'error',
+               title: 'خطأ',
+               text: err.error.message,
+             });
+             this.button = false;
+       })
+    }else{
       Swal.fire({
-       icon: "success",
-       title: "تم تسجيل الطيران بنجاح",
-       showConfirmButton: false,
-       timer: 1500,
-     }); 
-     this.planeForm.reset();
-     this._Router.navigate(['content/admin/ViewPlane']);
-     },(err) => {
+        icon: 'error',
+        title: 'خطأ',
+        text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
+      });
       this.button = false;
-           Swal.fire({
-             icon: 'error',
-             title: 'خطأ',
-             text: err.error.message,
-           });
-           this.button = false;
-     })
+    }
+    
   }else if (this.planeForm.status == "VALID" && this.update == true){
   this.appenddata();
   this._PlanesService.UpdatePlaneRecord(this.planeFormData, this.recordtoupdate.plane_id).subscribe((res) => {

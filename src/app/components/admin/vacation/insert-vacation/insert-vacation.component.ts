@@ -47,6 +47,8 @@ export class InsertVacationComponent implements OnInit {
       description: [data?.description || '', Validators.required],
       price: [data?.price || '', Validators.required],
       day_num: [data?.day_num || '', Validators.required],
+      vip:[ data?.vip || '', Validators.required],
+      offer:[ data?.offer || '', Validators.required]
     });
   }
   get fc(){
@@ -70,6 +72,8 @@ appenddata(){
   this.VacationFromData.append("nameAr", this.VacationForm.value.nameAr);
   this.VacationFromData.append("description", this.VacationForm.value.description);
   this.VacationFromData.append("price", this.VacationForm.value.price);
+  this.VacationFromData.append("vip", this.VacationForm.value.vip);
+  this.VacationFromData.append("offer", this.VacationForm.value.offer);
   this.VacationFromData.append("day_num", this.VacationForm.value.day_num);
   this.Image.forEach(element => {
     this.VacationFromData.append("vacationImages[]", element);      
@@ -78,25 +82,34 @@ appenddata(){
 onSubmit(){
   this.button = true;
   if( this.VacationForm.status == "VALID" && this.update == false){
-    this.appenddata();
-    this._VacationService.CreateVacation(this.VacationFromData).subscribe((res) => {
+    if( this.VacationForm.value.price > this.VacationForm.value.offer){
+      this.appenddata();
+      this._VacationService.CreateVacation(this.VacationFromData).subscribe((res) => {
+        Swal.fire({
+         icon: "success",
+         title: "تم تسجيل الفسحة بنجاح",
+         showConfirmButton: false,
+         timer: 1500,
+       }); 
+       this.VacationForm.reset();
+       this._Router.navigate(['content/admin/ViewVacation']);
+       },(err) => {
+        this.button = false;
+             Swal.fire({
+               icon: 'error',
+               title: 'خطأ',
+               text: err.error.message,
+             });
+             this.button = false;
+       })
+    }else{
       Swal.fire({
-       icon: "success",
-       title: "تم تسجيل الفسحة بنجاح",
-       showConfirmButton: false,
-       timer: 1500,
-     }); 
-     this.VacationForm.reset();
-     this._Router.navigate(['content/admin/ViewVacation']);
-     },(err) => {
+        icon: 'error',
+        title: 'خطأ',
+        text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
+      });
       this.button = false;
-           Swal.fire({
-             icon: 'error',
-             title: 'خطأ',
-             text: err.error.message,
-           });
-           this.button = false;
-     })
+    }
   }else if(this.VacationForm.status == "VALID" && this.update == true){
     this.appenddata();
     this._VacationService.UpdateVacation(this.VacationFromData, this.recordtoupdate.vacation_id).subscribe((res) => {

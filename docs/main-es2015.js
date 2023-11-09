@@ -367,26 +367,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function InsertHotelsComponent_div_44_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "img", 26);
+function InsertHotelsComponent_div_63_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 33);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "img", 34);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const img_r5 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate"]("src", img_r5, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵsanitizeUrl"]);
 } }
-function InsertHotelsComponent_ng_template_51_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 27);
+function InsertHotelsComponent_ng_template_70_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 35);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1, " \u062D\u0641\u0638 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("disabled", ctx_r3.button);
 } }
-function InsertHotelsComponent_div_53_Template(rf, ctx) { if (rf & 1) {
+function InsertHotelsComponent_div_72_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 36);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2, " \u062A\u0639\u062F\u064A\u0644 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -427,6 +427,8 @@ class InsertHotelsComponent {
             sleeps: [(data === null || data === void 0 ? void 0 : data.sleeps) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             price: [(data === null || data === void 0 ? void 0 : data.price) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             description: [(data === null || data === void 0 ? void 0 : data.description) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            vip: [(data === null || data === void 0 ? void 0 : data.vip) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            offer: [(data === null || data === void 0 ? void 0 : data.offer) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]
         });
     }
     get fc() {
@@ -450,6 +452,8 @@ class InsertHotelsComponent {
         this.HotelFormData.append("roomType", this.HotelForm.value.roomType);
         this.HotelFormData.append("sleeps", this.HotelForm.value.sleeps);
         this.HotelFormData.append("price", this.HotelForm.value.price);
+        this.HotelFormData.append("vip", this.HotelForm.value.vip);
+        this.HotelFormData.append("offer", this.HotelForm.value.offer);
         this.HotelFormData.append("description", this.HotelForm.value.description);
         this.Image.forEach(element => {
             this.HotelFormData.append("hotelImages[]", element);
@@ -458,25 +462,35 @@ class InsertHotelsComponent {
     onSubmit() {
         this.button = true;
         if (this.HotelForm.status == "VALID" && this.update == false) {
-            this.appenddata();
-            this._HotelsService.CreateHotel(this.HotelFormData).subscribe((res) => {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-                    icon: "success",
-                    title: "تم تسجيل الفندق بنجاح",
-                    showConfirmButton: false,
-                    timer: 1500,
+            if (this.HotelForm.value.price > this.HotelForm.value.offer) {
+                this.appenddata();
+                this._HotelsService.CreateHotel(this.HotelFormData).subscribe((res) => {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+                        icon: "success",
+                        title: "تم تسجيل الفندق بنجاح",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    this.HotelForm.reset();
+                    this._Router.navigate(['content/admin/ViewHotel']);
+                }, (err) => {
+                    this.button = false;
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: err.error.message,
+                    });
+                    this.button = false;
                 });
-                this.HotelForm.reset();
-                this._Router.navigate(['content/admin/ViewHotel']);
-            }, (err) => {
-                this.button = false;
+            }
+            else {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: err.error.message,
+                    text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
                 });
                 this.button = false;
-            });
+            }
         }
         else if (this.HotelForm.status == "VALID" && this.update == true) {
             this.appenddata();
@@ -514,7 +528,7 @@ class InsertHotelsComponent {
     }
 }
 InsertHotelsComponent.ɵfac = function InsertHotelsComponent_Factory(t) { return new (t || InsertHotelsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormBuilder), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_shared_API_Service_services_hotels_service__WEBPACK_IMPORTED_MODULE_1__.HotelsService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.Router)); };
-InsertHotelsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertHotelsComponent, selectors: [["app-insert-hotels"]], decls: 54, vars: 29, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "hotelName", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0641\u0646\u062F\u0642", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "roomType", "required", "", "placeholder", "\u0646\u0648\u0639 \u0627\u0644\u063A\u0631\u0641\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "sleeps", "required", "", "placeholder", "\u0639\u062F\u062F \u0627\u0644\u0633\u0631\u0627\u064A\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0627\u0644\u0633\u0639\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-12", "mb-3"], ["class", "col-3 m-2 row", 4, "ngFor", "ngForOf"], [1, "col-12", "my-3"], ["type", "file", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "100%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [1, "col-3", "m-2", "row"], [1, "w-100", "image-style", "p-2", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertHotelsComponent_Template(rf, ctx) { if (rf & 1) {
+InsertHotelsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertHotelsComponent, selectors: [["app-insert-hotels"]], decls: 73, vars: 36, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "hotelName", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0641\u0646\u062F\u0642", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "roomType", "required", "", "placeholder", "\u0646\u0648\u0639 \u0627\u0644\u063A\u0631\u0641\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "sleeps", "required", "", "placeholder", "\u0639\u062F\u062F \u0627\u0644\u0633\u0631\u0627\u064A\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0627\u0644\u0633\u0639\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-lg-6"], ["for", "validationCustom05"], [1, "form-check"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault1", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault1", 1, "form-check-label", "label-select"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault2", "checked", "", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault2", 1, "form-check-label", "label-select"], ["id", "validation01", "type", "number", "formControlName", "offer", "required", "", "placeholder", "\u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-12", "mb-3"], ["class", "col-3 m-2 row", 4, "ngFor", "ngForOf"], [1, "col-12", "my-3"], ["type", "file", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "100%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [1, "col-3", "m-2", "row"], [1, "w-100", "image-style", "p-2", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertHotelsComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](2, "div", 2);
@@ -578,20 +592,49 @@ InsertHotelsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODU
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](42, "input", 16);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](43, "div", 17);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](44, InsertHotelsComponent_div_44_Template, 2, 1, "div", 18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](45, "div", 19);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](46, "input", 20, 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertHotelsComponent_Template_input_change_46_listener($event) { return ctx.getLogoUrl($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](43, "div", 17);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](44, "label", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](45, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](46, "*");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](48, "button", 22);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](49, " \u0635\u0648\u0631\u0629 \u0627\u0644\u0641\u0646\u062F\u0642 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](47, " VIP");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](48, "div", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](49, "input", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](50, "label", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](51, " \u0646\u0639\u0645 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](52, "div", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](53, "input", 22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](54, "label", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](55, " \u0644\u0627 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](50, "br");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](51, InsertHotelsComponent_ng_template_51_Template, 2, 1, "ng-template", null, 23, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](53, InsertHotelsComponent_div_53_Template, 3, 0, "div", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](56, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](57, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](58, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](59, "*");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](60, " \u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](61, "input", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](62, "div", 25);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](63, InsertHotelsComponent_div_63_Template, 2, 1, "div", 26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](64, "div", 27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](65, "input", 28, 29);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertHotelsComponent_Template_input_change_65_listener($event) { return ctx.getLogoUrl($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](67, "button", 30);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](68, " \u0635\u0648\u0631\u0629 \u0627\u0644\u0641\u0646\u062F\u0642 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](69, "br");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](70, InsertHotelsComponent_ng_template_70_Template, 2, 1, "ng-template", null, 31, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](72, InsertHotelsComponent_div_72_Template, 3, 0, "div", 32);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -599,7 +642,7 @@ InsertHotelsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODU
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](52);
+        const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](71);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("formGroup", ctx.HotelForm);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
@@ -617,11 +660,18 @@ InsertHotelsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODU
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.description.valid && ctx.fc.description.touched)("is-invalid", ctx.fc.description.invalid && ctx.fc.description.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.description.errors == null ? null : ctx.fc.description.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.offer.valid && ctx.fc.offer.touched)("is-invalid", ctx.fc.offer.invalid && ctx.fc.offer.touched);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.offer.errors == null ? null : ctx.fc.offer.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx.images);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](9);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.update)("ngIfElse", _r2);
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtaG90ZWxzLmNvbXBvbmVudC5jc3MifQ== */"] });
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RadioControlValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NumberValueAccessor, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtaG90ZWxzLmNvbXBvbmVudC5jc3MifQ== */"] });
 
 
 /***/ }),
@@ -1333,23 +1383,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function InsertCafetableComponent_img_44_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](0, "img", 24);
+function InsertCafetableComponent_img_63_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](0, "img", 32);
 } if (rf & 2) {
     const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate"]("src", ctx_r0.imageLogo, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵsanitizeUrl"]);
 } }
-function InsertCafetableComponent_ng_template_50_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 25);
+function InsertCafetableComponent_ng_template_69_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 33);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1, " \u062D\u0641\u0638 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("disabled", ctx_r3.button);
 } }
-function InsertCafetableComponent_div_52_Template(rf, ctx) { if (rf & 1) {
+function InsertCafetableComponent_div_71_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 34);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2, " \u062A\u0639\u062F\u064A\u0644 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -1399,6 +1449,8 @@ class InsertCafetableComponent {
             table_num: [data.table_num, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             price: [data.price, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             tableImage: [data.tableImage, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            vip: [(data === null || data === void 0 ? void 0 : data.vip) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            offer: [(data === null || data === void 0 ? void 0 : data.offer) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]
         });
     }
     get fc() {
@@ -1424,30 +1476,42 @@ class InsertCafetableComponent {
         this.CafeTableFromData.append("set_num", this.CafeTableForm.value.set_num);
         this.CafeTableFromData.append("table_num", this.CafeTableForm.value.table_num);
         this.CafeTableFromData.append("price", this.CafeTableForm.value.price);
+        this.CafeTableFromData.append("vip", this.CafeTableForm.value.vip);
+        this.CafeTableFromData.append("offer", this.CafeTableForm.value.offer);
         this.CafeTableFromData.append("tableImage", this.Image);
     }
     onSubmit() {
         this.button = true;
         if (this.CafeTableForm.status == "VALID" && this.update == false) {
-            this.appenddata();
-            this._CafetablesService.Createtable(this.CafeTableFromData).subscribe((res) => {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
-                    icon: "success",
-                    title: "تم تسجيل طاولة الكافية بنجاح",
-                    showConfirmButton: false,
-                    timer: 1500,
+            if (this.CafeTableForm.value.price > this.CafeTableForm.value.offer) {
+                this.appenddata();
+                this._CafetablesService.Createtable(this.CafeTableFromData).subscribe((res) => {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+                        icon: "success",
+                        title: "تم تسجيل الفندق بنجاح",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    this.CafeTableForm.reset();
+                    this._Router.navigate(['content/admin/ViewNightLife']);
+                }, (err) => {
+                    this.button = false;
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: err.error.message,
+                    });
+                    this.button = false;
                 });
-                this.CafeTableForm.reset();
-                this._Router.navigate(['content/admin/ViewNightLife']);
-            }, (err) => {
-                this.button = false;
+            }
+            else {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: err.error.message,
+                    text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
                 });
                 this.button = false;
-            });
+            }
         }
         else if (this.CafeTableForm.status == "VALID" && this.update == true) {
             this.appenddata();
@@ -1482,7 +1546,7 @@ class InsertCafetableComponent {
     }
 }
 InsertCafetableComponent.ɵfac = function InsertCafetableComponent_Factory(t) { return new (t || InsertCafetableComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_shared_API_Service_services_cafetables_service__WEBPACK_IMPORTED_MODULE_0__.CafetablesService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormBuilder), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.ActivatedRoute)); };
-InsertCafetableComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertCafetableComponent, selectors: [["app-insert-cafetable"]], decls: 53, vars: 29, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "type", "required", "", "placeholder", "\u0646\u0648\u0639 \u0627\u0644\u0637\u0627\u0648\u0644\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u062A\u0639\u0631\u064A\u0641 \u0627\u0644\u0637\u0627\u0648\u0644\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "set_num", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0639\u062F\u062F \u0627\u0644\u0637\u0627\u0648\u0644\u0627\u062A \u0645\u0646 \u0647\u0630\u0627 \u0627\u0644\u0646\u0648\u0639", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "table_num", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0631\u0641\u0645 \u0627\u0644\u0637\u0627\u0648\u0644\u0627\u062A \u0645\u0646 \u0647\u0630\u0627 \u0627\u0644\u0646\u0648\u0639", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0633\u0639\u0631 \u0631\u0641\u0645 \u0627\u0644\u0637\u0627\u0648\u0644\u0627\u062A \u0645\u0646 \u0647\u0630\u0627 \u0627\u0644\u0646\u0648\u0639", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-6", "my-3"], ["style", "width: 60%; height: 220px;", "class", "image-style p-2", 3, "src", 4, "ngIf"], ["type", "file", "formControlName", "tableImage", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "60%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [1, "image-style", "p-2", 2, "width", "60%", "height", "220px", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertCafetableComponent_Template(rf, ctx) { if (rf & 1) {
+InsertCafetableComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertCafetableComponent, selectors: [["app-insert-cafetable"]], decls: 72, vars: 36, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "type", "required", "", "placeholder", "\u0646\u0648\u0639 \u0627\u0644\u0637\u0627\u0648\u0644\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u062A\u0639\u0631\u064A\u0641 \u0627\u0644\u0637\u0627\u0648\u0644\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "set_num", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0639\u062F\u062F \u0627\u0644\u0637\u0627\u0648\u0644\u0627\u062A \u0645\u0646 \u0647\u0630\u0627 \u0627\u0644\u0646\u0648\u0639", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "table_num", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0631\u0641\u0645 \u0627\u0644\u0637\u0627\u0648\u0644\u0627\u062A \u0645\u0646 \u0647\u0630\u0627 \u0627\u0644\u0646\u0648\u0639", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0633\u0639\u0631 \u0631\u0641\u0645 \u0627\u0644\u0637\u0627\u0648\u0644\u0627\u062A \u0645\u0646 \u0647\u0630\u0627 \u0627\u0644\u0646\u0648\u0639", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-lg-6"], ["for", "validationCustom05"], [1, "form-check"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault1", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault1", 1, "form-check-label", "label-select"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault2", "checked", "", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault2", 1, "form-check-label", "label-select"], ["id", "validation01", "type", "number", "formControlName", "offer", "required", "", "placeholder", "\u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-6", "my-3"], ["style", "width: 60%; height: 220px;", "class", "image-style p-2", 3, "src", 4, "ngIf"], ["type", "file", "formControlName", "tableImage", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "60%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [1, "image-style", "p-2", 2, "width", "60%", "height", "220px", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertCafetableComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](2, "div", 2);
@@ -1547,18 +1611,47 @@ InsertCafetableComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_M
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](42, "input", 16);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](43, "div", 17);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](44, InsertCafetableComponent_img_44_Template, 1, 1, "img", 18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](45, "input", 19, 20);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertCafetableComponent_Template_input_change_45_listener($event) { return ctx.getLogoUrl($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](44, "label", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](45, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](46, "*");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](47, "button", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](48, " \u0635\u0648\u0631\u0629 \u0627\u0644\u0637\u0627\u0648\u0644\u0629 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](47, " VIP");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](48, "div", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](49, "input", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](50, "label", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](51, " \u0646\u0639\u0645 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](52, "div", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](53, "input", 22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](54, "label", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](55, " \u0644\u0627 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](49, "br");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](50, InsertCafetableComponent_ng_template_50_Template, 2, 1, "ng-template", null, 22, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](52, InsertCafetableComponent_div_52_Template, 3, 0, "div", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](56, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](57, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](58, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](59, "*");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](60, " \u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](61, "input", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](62, "div", 25);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](63, InsertCafetableComponent_img_63_Template, 1, 1, "img", 26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](64, "input", 27, 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertCafetableComponent_Template_input_change_64_listener($event) { return ctx.getLogoUrl($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](66, "button", 29);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](67, " \u0635\u0648\u0631\u0629 \u0627\u0644\u0637\u0627\u0648\u0644\u0629 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](68, "br");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](69, InsertCafetableComponent_ng_template_69_Template, 2, 1, "ng-template", null, 30, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](71, InsertCafetableComponent_div_71_Template, 3, 0, "div", 31);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -1566,7 +1659,7 @@ InsertCafetableComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_M
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](51);
+        const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](70);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("formGroup", ctx.CafeTableForm);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
@@ -1584,11 +1677,18 @@ InsertCafetableComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_M
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.price.valid && ctx.fc.price.touched)("is-invalid", ctx.fc.price.invalid && ctx.fc.price.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.price.errors == null ? null : ctx.fc.price.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.offer.valid && ctx.fc.offer.touched)("is-invalid", ctx.fc.offer.invalid && ctx.fc.offer.touched);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.offer.errors == null ? null : ctx.fc.offer.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.imageLogo != null);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.update)("ngIfElse", _r2);
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtY2FmZXRhYmxlLmNvbXBvbmVudC5jc3MifQ== */"] });
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RadioControlValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NumberValueAccessor, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtY2FmZXRhYmxlLmNvbXBvbmVudC5jc3MifQ== */"] });
 
 
 /***/ }),
@@ -1746,7 +1846,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 37716);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 39895);
 /* harmony import */ var ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-bootstrap/tooltip */ 27799);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ 38583);
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-select/ng-select */ 86640);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 38583);
 
 
 
@@ -1757,26 +1858,37 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function InsertCarsComponent_div_38_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "img", 25);
+
+function InsertCarsComponent_ng_option_62_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "ng-option", 35);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const img_r5 = ctx.$implicit;
+    const item_r6 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", item_r6.value);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate"]("src", img_r5, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵsanitizeUrl"]);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](item_r6.name);
 } }
-function InsertCarsComponent_ng_template_45_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 26);
+function InsertCarsComponent_div_64_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 36);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "img", 37);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const img_r7 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate"]("src", img_r7, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵsanitizeUrl"]);
+} }
+function InsertCarsComponent_ng_template_71_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 38);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1, " \u062D\u0641\u0638 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("disabled", ctx_r3.button);
+    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("disabled", ctx_r4.button);
 } }
-function InsertCarsComponent_div_47_Template(rf, ctx) { if (rf & 1) {
+function InsertCarsComponent_div_73_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 27);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 39);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2, " \u062A\u0639\u062F\u064A\u0644 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -1791,6 +1903,10 @@ class InsertCarsComponent {
         this.images = [];
         this.update = false;
         this.button = false;
+        this.flags = [
+            { name: 'متاحة', value: 1 },
+            { name: 'غير متاحة', value: 0 }
+        ];
     }
     ngOnInit() {
         this.check();
@@ -1816,6 +1932,9 @@ class InsertCarsComponent {
             nameAr: [(data === null || data === void 0 ? void 0 : data.nameAr) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             description: [(data === null || data === void 0 ? void 0 : data.description) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             price: [(data === null || data === void 0 ? void 0 : data.price) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            flag: [(data === null || data === void 0 ? void 0 : data.flag) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            vip: [(data === null || data === void 0 ? void 0 : data.vip) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            offer: [(data === null || data === void 0 ? void 0 : data.offer) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]
         });
     }
     get fc() {
@@ -1839,6 +1958,9 @@ class InsertCarsComponent {
         this.CarFromData.append("nameAr", this.CarForm.value.nameAr);
         this.CarFromData.append("description", this.CarForm.value.description);
         this.CarFromData.append("price", this.CarForm.value.price);
+        this.CarFromData.append("flag", this.CarForm.value.flag);
+        this.CarFromData.append("vip", this.CarForm.value.vip);
+        this.CarFromData.append("offer", this.CarForm.value.offer);
         this.Image.forEach(element => {
             this.CarFromData.append("carImages[]", element);
         });
@@ -1850,7 +1972,7 @@ class InsertCarsComponent {
             this._CarsService.CreateCar(this.CarFromData).subscribe((res) => {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
                     icon: "success",
-                    title: "تم تسجيل الفسحة بنجاح",
+                    title: "تم تسجيل السيارة بنجاح",
                     showConfirmButton: false,
                     timer: 1500,
                 });
@@ -1902,7 +2024,7 @@ class InsertCarsComponent {
     }
 }
 InsertCarsComponent.ɵfac = function InsertCarsComponent_Factory(t) { return new (t || InsertCarsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_shared_API_Service_services_cars_service__WEBPACK_IMPORTED_MODULE_0__.CarsService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormBuilder)); };
-InsertCarsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertCarsComponent, selectors: [["app-insert-cars"]], decls: 48, vars: 24, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "nameEn", "required", "", "placeholder", "\u0627\u0633\u0645 \u0628\u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0627\u0646\u062C\u0644\u064A\u0632\u064A\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "nameAr", "required", "", "placeholder", "\u0627\u0644\u0627\u0633\u0645 \u0628\u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0627\u0644\u0633\u0639\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-12", "mb-3"], ["class", "col-3 m-2 row", 4, "ngFor", "ngForOf"], [1, "col-12", "my-3"], ["type", "file", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "100%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [1, "col-3", "m-2", "row"], [1, "w-100", "image-style", "p-2", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertCarsComponent_Template(rf, ctx) { if (rf & 1) {
+InsertCarsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertCarsComponent, selectors: [["app-insert-cars"]], decls: 74, vars: 33, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "nameEn", "required", "", "placeholder", "\u0627\u0633\u0645 \u0628\u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0627\u0646\u062C\u0644\u064A\u0632\u064A\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "nameAr", "required", "", "placeholder", "\u0627\u0644\u0627\u0633\u0645 \u0628\u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-lg-6"], ["for", "validationCustom05"], [1, "form-check"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault1", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault1", 1, "form-check-label", "label-select"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault2", "checked", "", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault2", 1, "form-check-label", "label-select"], ["id", "validation01", "type", "number", "formControlName", "offer", "required", "", "placeholder", "\u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0627\u0643\u062A\u0628 \u0627\u0644\u0633\u0639\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-lg-6", "col-sm-12", "mb-3"], ["formControlName", "flag", "placeholder", "\u0627\u062E\u062A\u0631 \u0627\u0644\u062D\u0627\u0644\u0629", "id", "validationCustom05", 1, "form-control", "p-0", 3, "selectOnTab"], [3, "value", 4, "ngFor", "ngForOf"], [1, "col-12", "mb-3"], ["class", "col-3 m-2 row", 4, "ngFor", "ngForOf"], [1, "col-12", "my-3"], ["type", "file", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "100%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [3, "value"], [1, "col-3", "m-2", "row"], [1, "w-100", "image-style", "p-2", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertCarsComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](2, "div", 2);
@@ -1948,29 +2070,69 @@ InsertCarsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](30, "input", 14);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](31, "div", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](32, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](31, "div", 15);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](32, "label", 16);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](33, "span", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](34, "*");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](35, " \u0627\u0644\u0633\u0639\u0631");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](35, " VIP");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](36, "input", 15);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](37, "div", 16);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](38, InsertCarsComponent_div_38_Template, 2, 1, "div", 17);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](39, "div", 18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](40, "input", 19, 20);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertCarsComponent_Template_input_change_40_listener($event) { return ctx.getLogoUrl($event); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](42, "button", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](43, " \u0635\u0648\u0631\u0629 \u0627\u0644\u0641\u0633\u062D\u0629 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](36, "div", 17);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](37, "input", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](38, "label", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](39, " \u0646\u0639\u0645 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](40, "div", 17);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](41, "input", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](42, "label", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](43, " \u0644\u0627 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](44, "br");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](45, InsertCarsComponent_ng_template_45_Template, 2, 1, "ng-template", null, 22, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](47, InsertCarsComponent_div_47_Template, 3, 0, "div", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](44, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](45, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](46, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](47, "*");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](48, " \u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](49, "input", 22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](50, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](51, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](52, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](53, "*");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](54, " \u0627\u0644\u0633\u0639\u0631");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](55, "input", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](56, "div", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](57, "label", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](58, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](59, "*");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](60, " \u0627\u062E\u062A\u0631 \u0627\u0644\u062D\u0627\u0644\u0629");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](61, "ng-select", 25);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](62, InsertCarsComponent_ng_option_62_Template, 2, 2, "ng-option", 26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](63, "div", 27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](64, InsertCarsComponent_div_64_Template, 2, 1, "div", 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](65, "div", 29);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](66, "input", 30, 31);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertCarsComponent_Template_input_change_66_listener($event) { return ctx.getLogoUrl($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](68, "button", 32);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](69, " \u0635\u0648\u0631\u0629 \u0627\u0644\u0633\u064A\u0627\u0631\u0629 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](70, "br");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](71, InsertCarsComponent_ng_template_71_Template, 2, 1, "ng-template", null, 33, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](73, InsertCarsComponent_div_73_Template, 3, 0, "div", 34);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -1978,7 +2140,7 @@ InsertCarsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](46);
+        const _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](72);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("formGroup", ctx.CarForm);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
@@ -1990,14 +2152,25 @@ InsertCarsComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.description.valid && ctx.fc.description.touched)("is-invalid", ctx.fc.description.invalid && ctx.fc.description.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.description.errors == null ? null : ctx.fc.description.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.offer.valid && ctx.fc.offer.touched)("is-invalid", ctx.fc.offer.invalid && ctx.fc.offer.touched);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.offer.errors == null ? null : ctx.fc.offer.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.price.valid && ctx.fc.price.touched)("is-invalid", ctx.fc.price.invalid && ctx.fc.price.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.price.errors == null ? null : ctx.fc.price.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("selectOnTab", true);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx.flags);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx.images);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.update)("ngIfElse", _r2);
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtY2Fycy5jb21wb25lbnQuY3NzIn0= */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.update)("ngIfElse", _r3);
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RadioControlValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NumberValueAccessor, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_6__.NgSelectComponent, _angular_common__WEBPACK_IMPORTED_MODULE_7__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_7__.NgIf, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_6__["ɵr"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtY2Fycy5jb21wb25lbnQuY3NzIn0= */"] });
 
 
 /***/ }),
@@ -2676,7 +2849,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function InsertNightlifeComponent_ng_option_43_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "ng-option", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "ng-option", 27);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 } if (rf & 2) {
@@ -2685,23 +2858,23 @@ function InsertNightlifeComponent_ng_option_43_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate"](item_r6.clientName);
 } }
-function InsertNightlifeComponent_img_46_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](0, "img", 29);
+function InsertNightlifeComponent_img_45_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](0, "img", 28);
 } if (rf & 2) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpropertyInterpolate"]("src", ctx_r1.imageLogo, _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵsanitizeUrl"]);
 } }
-function InsertNightlifeComponent_ng_template_52_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "button", 30);
+function InsertNightlifeComponent_ng_template_51_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "button", 29);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](1, " \u062D\u0641\u0638 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("disabled", ctx_r4.button);
 } }
-function InsertNightlifeComponent_div_54_Template(rf, ctx) { if (rf & 1) {
+function InsertNightlifeComponent_div_53_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](1, "button", 31);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](1, "button", 30);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](2, " \u062A\u0639\u062F\u064A\u0644 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
@@ -2736,7 +2909,7 @@ class InsertNightlifeComponent {
             description: [(data === null || data === void 0 ? void 0 : data.description) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_4__.Validators.required],
             cafeLocation: [(data === null || data === void 0 ? void 0 : data.cafeLocation) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_4__.Validators.required],
             image: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__.Validators.required],
-            client_id: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__.Validators.required]
+            client_id: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__.Validators.required],
         });
     }
     get fc() {
@@ -2833,7 +3006,7 @@ class InsertNightlifeComponent {
     }
 }
 InsertNightlifeComponent.ɵfac = function InsertNightlifeComponent_Factory(t) { return new (t || InsertNightlifeComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_shared_API_Service_services_nightlife_service__WEBPACK_IMPORTED_MODULE_0__.NightlifeService), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormBuilder)); };
-InsertNightlifeComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineComponent"]({ type: InsertNightlifeComponent, selectors: [["app-insert-nightlife"]], decls: 55, vars: 26, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "nameEn", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0643\u0627\u0641\u064A\u0629 \u0628\u0627\u0644\u0627\u0646\u062C\u0644\u064A\u0632\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "nameAr", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0643\u0627\u0641\u064A\u0629 \u0628\u0627\u0644\u0639\u0631\u0628\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "cafeLocation", "required", "", "placeholder", "\u0645\u062B\u0627\u0644 : \u0627\u0644\u0645\u0647\u0646\u062F\u0633\u064A\u0646", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-lg-6", "col-sm-12", "mb-3"], ["for", "validationCustom05"], ["formControlName", "client_id", "placeholder", "\u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0627\u0644\u0643", "id", "validationCustom05", 1, "form-control", "p-0", 3, "selectOnTab"], [3, "value", 4, "ngFor", "ngForOf"], [1, "col-lg-6"], [1, "col-6", "my-3"], ["style", "width: 60%; height: 220px;", "class", "image-style p-2", 3, "src", 4, "ngIf"], ["type", "file", "formControlName", "image", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "60%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [3, "value"], [1, "image-style", "p-2", 2, "width", "60%", "height", "220px", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertNightlifeComponent_Template(rf, ctx) { if (rf & 1) {
+InsertNightlifeComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineComponent"]({ type: InsertNightlifeComponent, selectors: [["app-insert-nightlife"]], decls: 54, vars: 26, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "nameEn", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0643\u0627\u0641\u064A\u0629 \u0628\u0627\u0644\u0627\u0646\u062C\u0644\u064A\u0632\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "nameAr", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0643\u0627\u0641\u064A\u0629 \u0628\u0627\u0644\u0639\u0631\u0628\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "cafeLocation", "required", "", "placeholder", "\u0645\u062B\u0627\u0644 : \u0627\u0644\u0645\u0647\u0646\u062F\u0633\u064A\u0646", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-lg-6", "col-sm-12", "mb-3"], ["for", "validationCustom05"], ["formControlName", "client_id", "placeholder", "\u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0627\u0644\u0643", "id", "validationCustom05", 1, "form-control", "p-0", 3, "selectOnTab"], [3, "value", 4, "ngFor", "ngForOf"], [1, "col-6", "my-3"], ["style", "width: 60%; height: 220px;", "class", "image-style p-2", 3, "src", 4, "ngIf"], ["type", "file", "formControlName", "image", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", 2, "width", "60%"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [3, "value"], [1, "image-style", "p-2", 2, "width", "60%", "height", "220px", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertNightlifeComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](2, "div", 2);
@@ -2899,20 +3072,19 @@ InsertNightlifeComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_M
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](43, InsertNightlifeComponent_ng_option_43_Template, 2, 2, "ng-option", 19);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](44, "div", 20);
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](45, "div", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](46, InsertNightlifeComponent_img_46_Template, 1, 1, "img", 22);
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](47, "input", 23, 24);
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("change", function InsertNightlifeComponent_Template_input_change_47_listener($event) { return ctx.getLogoUrl($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](44, "div", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](45, InsertNightlifeComponent_img_45_Template, 1, 1, "img", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](46, "input", 22, 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("change", function InsertNightlifeComponent_Template_input_change_46_listener($event) { return ctx.getLogoUrl($event); });
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](49, "button", 25);
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](50, " \u0635\u0648\u0631\u0629 \u0644\u0644\u0643\u0627\u0641\u064A\u0629 ");
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](48, "button", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](49, " \u0635\u0648\u0631\u0629 \u0644\u0644\u0643\u0627\u0641\u064A\u0629 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](51, "br");
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](52, InsertNightlifeComponent_ng_template_52_Template, 2, 1, "ng-template", null, 26, _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](54, InsertNightlifeComponent_div_54_Template, 3, 0, "div", 27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](50, "br");
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](51, InsertNightlifeComponent_ng_template_51_Template, 2, 1, "ng-template", null, 25, _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](53, InsertNightlifeComponent_div_53_Template, 3, 0, "div", 26);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
@@ -2920,7 +3092,7 @@ InsertNightlifeComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_M
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        const _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵreference"](53);
+        const _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵreference"](52);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("formGroup", ctx.CafeForm);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](7);
@@ -2939,7 +3111,7 @@ InsertNightlifeComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_M
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("selectOnTab", true);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngForOf", ctx.owners);
-        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngIf", ctx.imageLogo != null);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngIf", ctx.update)("ngIfElse", _r3);
@@ -3378,26 +3550,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function InsertPlanesComponent_div_44_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "img", 25);
+function InsertPlanesComponent_div_63_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 32);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](1, "img", 33);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const img_r5 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate"]("src", img_r5, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵsanitizeUrl"]);
 } }
-function InsertPlanesComponent_ng_template_51_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 26);
+function InsertPlanesComponent_ng_template_70_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 34);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1, " \u062D\u0641\u0638 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("disabled", ctx_r3.button);
 } }
-function InsertPlanesComponent_div_53_Template(rf, ctx) { if (rf & 1) {
+function InsertPlanesComponent_div_72_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 27);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "button", 35);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2, " \u062A\u0639\u062F\u064A\u0644 ");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -3438,6 +3610,8 @@ class InsertPlanesComponent {
             description: [(data === null || data === void 0 ? void 0 : data.description) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             price: [(data === null || data === void 0 ? void 0 : data.price) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             type: [(data === null || data === void 0 ? void 0 : data.type) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            vip: [(data === null || data === void 0 ? void 0 : data.vip) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            offer: [(data === null || data === void 0 ? void 0 : data.offer) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]
         });
     }
     get fc() {
@@ -3462,6 +3636,8 @@ class InsertPlanesComponent {
         this.planeFormData.append("description", this.planeForm.value.description);
         this.planeFormData.append("price", this.planeForm.value.price);
         this.planeFormData.append("type", this.planeForm.value.type);
+        this.planeFormData.append("vip", this.planeForm.value.vip);
+        this.planeFormData.append("offer", this.planeForm.value.offer);
         this.Image.forEach(element => {
             this.planeFormData.append("planeImages[]", element);
         });
@@ -3469,25 +3645,35 @@ class InsertPlanesComponent {
     onSubmit() {
         this.button = true;
         if (this.planeForm.status == "VALID" && this.update == false) {
-            this.appenddata();
-            this._PlanesService.CreatePlane(this.planeFormData).subscribe((res) => {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
-                    icon: "success",
-                    title: "تم تسجيل الطيران بنجاح",
-                    showConfirmButton: false,
-                    timer: 1500,
+            if (this.planeForm.value.price > this.planeForm.value.offer) {
+                this.appenddata();
+                this._PlanesService.CreatePlane(this.planeFormData).subscribe((res) => {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+                        icon: "success",
+                        title: "تم تسجيل الطيران بنجاح",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    this.planeForm.reset();
+                    this._Router.navigate(['content/admin/ViewPlane']);
+                }, (err) => {
+                    this.button = false;
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: err.error.message,
+                    });
+                    this.button = false;
                 });
-                this.planeForm.reset();
-                this._Router.navigate(['content/admin/ViewPlane']);
-            }, (err) => {
-                this.button = false;
+            }
+            else {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: err.error.message,
+                    text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
                 });
                 this.button = false;
-            });
+            }
         }
         else if (this.planeForm.status == "VALID" && this.update == true) {
             this.appenddata();
@@ -3525,7 +3711,7 @@ class InsertPlanesComponent {
     }
 }
 InsertPlanesComponent.ɵfac = function InsertPlanesComponent_Factory(t) { return new (t || InsertPlanesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormBuilder), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_shared_API_Service_services_planes_service__WEBPACK_IMPORTED_MODULE_0__.PlanesService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.Router)); };
-InsertPlanesComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertPlanesComponent, selectors: [["app-insert-planes"]], decls: 54, vars: 29, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "nameEn", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0628\u0627\u0644\u0627\u0646\u062C\u0644\u064A\u0632\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "nameAr", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0628\u0627\u0644\u0639\u0631\u0628\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "type", "required", "", "placeholder", "\u0646\u0648\u0639 \u0627\u0644\u0637\u064A\u0631\u0627\u0646", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0627\u0644\u0633\u0639\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], ["class", "col-3 m-2 row", 4, "ngFor", "ngForOf"], [1, "col-12", "my-3"], ["type", "file", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", "w-100"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [1, "col-3", "m-2", "row"], [1, "w-100", "image-style", "p-2", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertPlanesComponent_Template(rf, ctx) { if (rf & 1) {
+InsertPlanesComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: InsertPlanesComponent, selectors: [["app-insert-planes"]], decls: 73, vars: 36, consts: [[1, "container-fluid"], [1, "row"], [1, "col-md-12"], [1, "card"], [1, "card-header", 2, "padding-bottom", "5px !important"], [1, "pb-2"], [1, "card-body"], ["autocomplete", "off", "novalidate", "", 1, "needs-validation", 3, "formGroup", "ngSubmit"], [1, "form-row"], [1, "col-6", "mb-3"], ["for", "validation01"], [1, "validation-required"], ["id", "validation01", "type", "text", "formControlName", "nameEn", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0628\u0627\u0644\u0627\u0646\u062C\u0644\u064A\u0632\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "nameAr", "required", "", "placeholder", "\u0627\u0633\u0645 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0628\u0627\u0644\u0639\u0631\u0628\u064A", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "description", "required", "", "placeholder", "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "text", "formControlName", "type", "required", "", "placeholder", "\u0646\u0648\u0639 \u0627\u0644\u0637\u064A\u0631\u0627\u0646", "containerClass", "", 1, "form-control", 3, "tooltip"], [1, "col-lg-6"], ["for", "validationCustom05"], [1, "form-check"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault1", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault1", 1, "form-check-label", "label-select"], ["type", "radio", "formControlName", "vip", "name", "flexRadioDefault", "id", "flexRadioDefault2", "checked", "", 1, "form-check-input", 3, "value"], ["for", "flexRadioDefault2", 1, "form-check-label", "label-select"], ["id", "validation01", "type", "text", "formControlName", "price", "required", "", "placeholder", "\u0627\u0644\u0633\u0639\u0631", "containerClass", "", 1, "form-control", 3, "tooltip"], ["id", "validation01", "type", "number", "formControlName", "offer", "required", "", "placeholder", "\u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636", "containerClass", "", 1, "form-control", 3, "tooltip"], ["class", "col-3 m-2 row", 4, "ngFor", "ngForOf"], [1, "col-12", "my-3"], ["type", "file", "accept", "image/*", "id", "getLogo", 2, "display", "none", 3, "change"], ["file", ""], ["type", "button", "onclick", "document.getElementById('getLogo').click()", 1, "btn", "d-block", "w-100"], ["elseBlock", ""], [4, "ngIf", "ngIfElse"], [1, "col-3", "m-2", "row"], [1, "w-100", "image-style", "p-2", 3, "src"], ["type", "submit", 1, "btn", "pull-right", 3, "disabled"], ["type", "submit", 1, "btn", "pull-right"]], template: function InsertPlanesComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](2, "div", 2);
@@ -3580,29 +3766,58 @@ InsertPlanesComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODU
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](36, "input", 15);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](37, "div", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](38, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](37, "div", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](38, "label", 17);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](39, "span", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](40, "*");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](41, " \u0633\u0639\u0631 \u0627\u0644\u0637\u064A\u0631\u0627\u0646");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](41, " VIP");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](42, "input", 16);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](43, "div", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](44, InsertPlanesComponent_div_44_Template, 2, 1, "div", 17);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](45, "div", 18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](46, "input", 19, 20);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertPlanesComponent_Template_input_change_46_listener($event) { return ctx.getLogoUrl($event); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](48, "button", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](49, " \u0635\u0648\u0631\u0629 \u0644\u0644\u0637\u064A\u0631\u0627\u0646 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](42, "div", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](43, "input", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](44, "label", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](45, " \u0646\u0639\u0645 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](46, "div", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](47, "input", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](48, "label", 22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](49, " \u0644\u0627 ");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](50, "br");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](51, InsertPlanesComponent_ng_template_51_Template, 2, 1, "ng-template", null, 22, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](53, InsertPlanesComponent_div_53_Template, 3, 0, "div", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](50, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](51, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](52, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](53, "*");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](54, " \u0633\u0639\u0631 \u0627\u0644\u0637\u064A\u0631\u0627\u0646");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](55, "input", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](56, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](57, "label", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](58, "span", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](59, "*");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](60, " \u0627\u0644\u0633\u0639\u0631 \u0641\u064A \u0627\u0644\u0639\u0631\u0636");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](61, "input", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](62, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](63, InsertPlanesComponent_div_63_Template, 2, 1, "div", 25);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](64, "div", 26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](65, "input", 27, 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function InsertPlanesComponent_Template_input_change_65_listener($event) { return ctx.getLogoUrl($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](67, "button", 29);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](68, " \u0635\u0648\u0631\u0629 \u0644\u0644\u0637\u064A\u0631\u0627\u0646 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](69, "br");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](70, InsertPlanesComponent_ng_template_70_Template, 2, 1, "ng-template", null, 30, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](72, InsertPlanesComponent_div_72_Template, 3, 0, "div", 31);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
@@ -3610,7 +3825,7 @@ InsertPlanesComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODU
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
     } if (rf & 2) {
-        const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](52);
+        const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵreference"](71);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("formGroup", ctx.planeForm);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
@@ -3625,14 +3840,21 @@ InsertPlanesComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODU
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.type.valid && ctx.fc.type.touched)("is-invalid", ctx.fc.type.invalid && ctx.fc.type.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.type.errors == null ? null : ctx.fc.type.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("value", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.price.valid && ctx.fc.price.touched)("is-invalid", ctx.fc.price.invalid && ctx.fc.price.touched);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.price.errors == null ? null : ctx.fc.price.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵclassProp"]("is-valid", ctx.fc.offer.valid && ctx.fc.offer.touched)("is-invalid", ctx.fc.offer.invalid && ctx.fc.offer.touched);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("tooltip", (ctx.fc.offer.errors == null ? null : ctx.fc.offer.errors.required) ? "\u0627\u0644\u062D\u0642\u0644 \u0645\u0637\u0644\u0648\u0628" : null);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx.images);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](9);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.update)("ngIfElse", _r2);
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtcGxhbmVzLmNvbXBvbmVudC5jc3MifQ== */"] });
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RequiredValidator, ngx_bootstrap_tooltip__WEBPACK_IMPORTED_MODULE_5__.TooltipDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.RadioControlValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NumberValueAccessor, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJpbnNlcnQtcGxhbmVzLmNvbXBvbmVudC5jc3MifQ== */"] });
 
 
 /***/ }),
@@ -3922,6 +4144,8 @@ class InsertVacationComponent {
             description: [(data === null || data === void 0 ? void 0 : data.description) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             price: [(data === null || data === void 0 ? void 0 : data.price) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
             day_num: [(data === null || data === void 0 ? void 0 : data.day_num) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            vip: [(data === null || data === void 0 ? void 0 : data.vip) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
+            offer: [(data === null || data === void 0 ? void 0 : data.offer) || '', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required]
         });
     }
     get fc() {
@@ -3945,6 +4169,8 @@ class InsertVacationComponent {
         this.VacationFromData.append("nameAr", this.VacationForm.value.nameAr);
         this.VacationFromData.append("description", this.VacationForm.value.description);
         this.VacationFromData.append("price", this.VacationForm.value.price);
+        this.VacationFromData.append("vip", this.VacationForm.value.vip);
+        this.VacationFromData.append("offer", this.VacationForm.value.offer);
         this.VacationFromData.append("day_num", this.VacationForm.value.day_num);
         this.Image.forEach(element => {
             this.VacationFromData.append("vacationImages[]", element);
@@ -3953,25 +4179,35 @@ class InsertVacationComponent {
     onSubmit() {
         this.button = true;
         if (this.VacationForm.status == "VALID" && this.update == false) {
-            this.appenddata();
-            this._VacationService.CreateVacation(this.VacationFromData).subscribe((res) => {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
-                    icon: "success",
-                    title: "تم تسجيل الفسحة بنجاح",
-                    showConfirmButton: false,
-                    timer: 1500,
+            if (this.VacationForm.value.price > this.VacationForm.value.offer) {
+                this.appenddata();
+                this._VacationService.CreateVacation(this.VacationFromData).subscribe((res) => {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+                        icon: "success",
+                        title: "تم تسجيل الفسحة بنجاح",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    this.VacationForm.reset();
+                    this._Router.navigate(['content/admin/ViewVacation']);
+                }, (err) => {
+                    this.button = false;
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: err.error.message,
+                    });
+                    this.button = false;
                 });
-                this.VacationForm.reset();
-                this._Router.navigate(['content/admin/ViewVacation']);
-            }, (err) => {
-                this.button = false;
+            }
+            else {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: err.error.message,
+                    text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
                 });
                 this.button = false;
-            });
+            }
         }
         else if (this.VacationForm.status == "VALID" && this.update == true) {
             this.appenddata();

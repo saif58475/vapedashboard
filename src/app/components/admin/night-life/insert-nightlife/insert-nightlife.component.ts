@@ -20,6 +20,7 @@ button:boolean = false;
 img:string = environment.img;
 updaterecordid:number;
 owners:any [];
+
   constructor(private _NightlifeService:NightlifeService
              ,private _Router:Router
              ,private _FormBuilder:FormBuilder) { }
@@ -45,7 +46,7 @@ owners:any [];
       description: [data?.description ||'', Validators.required],
       cafeLocation: [data?.cafeLocation ||'', Validators.required],
       image: ['', Validators.required],
-      client_id: ['', Validators.required]
+      client_id: ['', Validators.required],
     });
   }
   get fc(){

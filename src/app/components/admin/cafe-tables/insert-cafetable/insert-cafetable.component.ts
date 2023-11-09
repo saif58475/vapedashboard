@@ -61,6 +61,8 @@ recordtoupdate:any;
       table_num: [data.table_num, Validators.required],
       price: [data.price, Validators.required],
       tableImage: [data.tableImage, Validators.required],
+      vip:[ data?.vip || '', Validators.required],
+      offer:[ data?.offer || '', Validators.required]
     });
   }
 
@@ -87,30 +89,41 @@ recordtoupdate:any;
     this.CafeTableFromData.append("set_num", this.CafeTableForm.value.set_num);
     this.CafeTableFromData.append("table_num", this.CafeTableForm.value.table_num);
     this.CafeTableFromData.append("price", this.CafeTableForm.value.price);
+    this.CafeTableFromData.append("vip", this.CafeTableForm.value.vip);
+    this.CafeTableFromData.append("offer", this.CafeTableForm.value.offer);
     this.CafeTableFromData.append("tableImage", this.Image);    
   }
   onSubmit(){
     this.button = true;
     if( this.CafeTableForm.status == "VALID" && this.update == false){
-      this.appenddata();
-      this._CafetablesService.Createtable(this.CafeTableFromData).subscribe((res) => {
-        Swal.fire({
-         icon: "success",
-         title: "تم تسجيل طاولة الكافية بنجاح",
-         showConfirmButton: false,
-         timer: 1500,
-       }); 
-       this.CafeTableForm.reset();
-       this._Router.navigate(['content/admin/ViewNightLife']);
-       },(err) => {
-        this.button = false;
-             Swal.fire({
-               icon: 'error',
-               title: 'خطأ',
-               text: err.error.message,
-             });
-             this.button = false;
-       })
+      if( this.CafeTableForm.value.price > this.CafeTableForm.value.offer){
+        this.appenddata();
+        this._CafetablesService.Createtable(this.CafeTableFromData).subscribe((res) => {
+          Swal.fire({
+           icon: "success",
+           title: "تم تسجيل الفندق بنجاح",
+           showConfirmButton: false,
+           timer: 1500,
+         }); 
+         this.CafeTableForm.reset();
+         this._Router.navigate(['content/admin/ViewNightLife']);
+         },(err) => {
+          this.button = false;
+               Swal.fire({
+                 icon: 'error',
+                 title: 'خطأ',
+                 text: err.error.message,
+               });
+               this.button = false;
+         })
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'لا يمكن ان يكون سعر العرض اكثر من السعر الفعلي',
+          });
+          this.button = false;
+        }
     }else if(this.CafeTableForm.status == "VALID" && this.update == true){
       this.appenddata();
       this._CafetablesService.Updatetable(this.CafeTableFromData, this.recordtoupdate.cafe_id).subscribe((res) => {

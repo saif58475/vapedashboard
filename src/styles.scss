@@ -10,7 +10,9 @@
     perspective:  1200px;
     transform-style:  preserve-3d;
 }
-
+.label-select{
+    margin: 0px 30px;
+}
 :host  {
     display: block;
     position: absolute;
